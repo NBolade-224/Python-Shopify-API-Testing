@@ -1,11 +1,12 @@
-import requests
+import requests, json
+
+ ##### https://shopify.dev/api/admin-rest
 
 ########################################
 #### CONNECTION AND AUTHORISATION
 ########################################
 
 admin_access_token = "TOKEN GOES HERE"
-endpoint = "https://test-storedev246.myshopify.com/admin/api/2022-04/products/6945359593572.json"
 session = requests.Session()
 session.headers = {
                 "X-Shopify-Access-Token": admin_access_token,
@@ -29,16 +30,24 @@ payload = {
 Product_upload = requests.post(endpoint, json=payload,  headers=session.headers)
 products = response.json()
 
-print(Product_upload)
-print()
-print(products)
+print(json.dumps(Product_upload, indent=1))
 
+########################################
+#### GET PRODUCT
+########################################
+
+endpoint = "https://test-storedev246.myshopify.com/admin/api/2022-04/products/%d.json" % "PRODUCT # ID GOES HERE"
+response = session.get(endpoint)
+
+products = response.json()
+
+print(json.dumps(products, indent=1))
 
 ########################################
 #### UPDATE PRODUCT
 ########################################
 
-endpoint = "https://test-storedev246.myshopify.com/admin/api/2022-04/products/6945359593572.json"
+endpoint = "https://test-storedev246.myshopify.com/admin/api/2022-04/products/%d.json" % "PRODUCT # ID GOES HERE"
 response = session.get(endpoint)
 payload = {
 "product": {
@@ -51,7 +60,5 @@ payload = {
 Product_Update = requests.put(endpoint, json=payload,  headers=session.headers)
 products = response.json()
 
-print(Product_Update)
-print()
-print(products)
+print(json.dumps(Product_Update, indent=1))
 
